@@ -5,7 +5,7 @@
 <!-- Begin component definition -->
 <dom-module id="weather-widget">
   <template>
-    <!-- Style tags are the convention in web components. Please see the Polymer documentation for more info. -->
+    <!-- Basic styling to ensure all information remains on a single line -->
     <style>
       .container {
         width: 100%;
@@ -45,7 +45,7 @@
   </template>
 <dom-module>
 <script>
-  //This is where we begin defining the component's behavior by passing Polymer a config object
+  //Defining the component's behavior and properties
   Polymer({
     is: "weather-widget",
     properties:  {
@@ -89,7 +89,7 @@
         console.log('Failure', response);
       });
     },
-
+    //Temperature conversion helpers
     toCelsius: function(){
       this.displayTemp = (this.trueTemp - 273.15).toFixed(1);
     },
