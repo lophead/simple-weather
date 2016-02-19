@@ -1,0 +1,25 @@
+{
+  "name": "simple-weather",
+  "version": "0.0.0",
+  "homepage": "https://github.com/lophead/simple-weather",
+  "authors": [
+    "Jonathan Mason <jmason.p@gmail.com>"
+  ],
+  "main": "index.html",
+  "keywords": [
+    "polymer",
+    "openweathermap"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "~1.2.4",
+    "iron-input": "PolymerElements/iron-input#~1.0.8"
+  }
+}
