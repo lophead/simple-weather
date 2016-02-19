@@ -1,0 +1,48 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/iron-input/iron-input.html">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+<!-- Begin component definition -->
+<dom-module id="weather-widget">
+  <template>
+    <!-- Style tags are the convention in web components. Please see the Polymer documentation for more info. -->
+    <style></style>
+    <div>
+      <button on-click="fetchWeather">Check Weather</button>
+      <label>5-digit zipcode
+        <input is="iron-input" prevent-invalid-input allowed-pattern="[0-9]" bind-value="{{zip}}">
+      </label>
+    </div>
+  </template>
+<dom-module>
+<script>
+  //This is where we begin defining the component's behavior by passing Polymer a config object
+  Polymer({
+    is: "weather-widget",
+    properties:  {
+      zip: Number,
+      API: {
+        type: String,
+        value: 'http://api.openweathermap.org/data/2.5/weather'
+      },
+      APPID: {
+        type: String,
+        value: '7c99bd12f8e57f1557fe0472e9ea0a64'
+      }
+    },
+    fetchWeather: function(){
+      console.log('Using', this.API, this.APPID);
+      $.get(this.API , 
+        {
+          zip: this.zip + ',us',
+          APPID: this.APPID
+        }
+      ).done(function success(response){
+        console.log('Success', response);
+      })
+      .fail(function fail(reponse){
+        console.log('Failure', response);
+      });
+    }
+  });
+</script>
