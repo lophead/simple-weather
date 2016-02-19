@@ -6,12 +6,41 @@
 <dom-module id="weather-widget">
   <template>
     <!-- Style tags are the convention in web components. Please see the Polymer documentation for more info. -->
-    <style></style>
-    <div>
-      <button on-click="fetchWeather">Check Weather</button>
-      <label>5-digit zipcode
-        <input is="iron-input" prevent-invalid-input allowed-pattern="[0-9]" bind-value="{{zip}}">
-      </label>
+    <style>
+      .container {
+        width: 100%;
+        overflow: auto;
+
+      }
+
+      .controls {
+        width: 30%;
+        float: left;
+      }
+
+      .info {
+        width: 70%;
+        float: right;
+      }
+
+      .info p {
+        display: inline;
+      }
+    </style>
+    <div class="container">
+      <div class="controls">
+        <label>5-digit zipcode: 
+          <input is="iron-input" prevent-invalid-input allowed-pattern="[0-9]" bind-value="{{zip}}">
+        </label>
+        <button on-click="fetchWeather">Check Weather</button>
+      </div>
+      <div class="info">
+        <p>Location: {{location::change}} &nbsp;</p>
+        <p>Temperature: {{displayTemp::change}}&nbsp;</p>
+        <button on-click="toFarenheit">F</button>
+        <button on-click="toKelvin">K</button>
+        <button on-click="toCelsius">C</button>
+      </div>
     </div>
   </template>
 <dom-module>
@@ -28,21 +57,48 @@
       APPID: {
         type: String,
         value: '7c99bd12f8e57f1557fe0472e9ea0a64'
+      },
+      location: {
+        type: String,
+        notify: true
+      },
+      trueTemp: {
+        type: Number,
+        notify: true
+      },
+      displayTemp: {
+        type: Number,
+        notify: true
       }
     },
+    //Define component methods
     fetchWeather: function(){
-      console.log('Using', this.API, this.APPID);
+      //Preserve component reference
+      var component = this;
       $.get(this.API , 
         {
           zip: this.zip + ',us',
           APPID: this.APPID
         }
       ).done(function success(response){
-        console.log('Success', response);
+        component.location = response.name;
+        component.trueTemp = response.main.temp;
+        component.displayTemp = (response.main.temp).toFixed(1);
       })
       .fail(function fail(reponse){
         console.log('Failure', response);
       });
+    },
+
+    toCelsius: function(){
+      this.displayTemp = (this.trueTemp - 273.15).toFixed(1);
+    },
+
+    toFarenheit: function(){
+      this.displayTemp = ((this.trueTemp * 9/5) - 459.67).toFixed(1);
+    },
+    toKelvin: function(){
+      this.displayTemp = this.trueTemp;
     }
   });
 </script>
